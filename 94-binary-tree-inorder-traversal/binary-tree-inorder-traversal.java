@@ -22,17 +22,15 @@ class Solution {
             stack.push(_root);
             _root = _root.left;
         }
-        TreeNode _root1;
         while (!stack.isEmpty()) {
-            _root1 = stack.pop();
-            res.add(_root1.val);
-            if (_root1.right != null) {
-                _root1 = _root1.right;
-                while (_root1 != null) {
-                    stack.push(_root1);
-                    _root1 = _root1.left;
-                }
+            _root = stack.pop();
+            res.add(_root.val);
+            _root = _root.right;
+            while (_root != null) {
+                stack.push(_root);
+                _root = _root.left;
             }
+
         }
     }
 
