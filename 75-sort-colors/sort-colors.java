@@ -1,24 +1,25 @@
 class Solution {
+    public static void swap(int[] arr, int i, int j) {
+    int temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+} // Dutch National Flag (DNF) algorithm is a sorting algorithm
     public void sortColors(int[] nums) {
-        int redCount = 0;
-        int whiteCount = 0;
-        int blueCount = 0;
-        for( int num :  nums){
-            if(num == 0) redCount++;
-            if(num == 1) whiteCount++;
-            else blueCount++; 
-        }
-        for(int i = 0; i < nums.length; ++i){
-            if(redCount > 0) {
-                nums[i] =0;
-                redCount--;
-            }else if(whiteCount > 0){
-                nums[i] = 1;
-                whiteCount--;
-            }else if(blueCount > 0){
-                nums[i] = 2;
-                blueCount--;
-            } 
+        int low = 0; // 0, 0
+        int mid = 0; // 1 , 2
+        int high = nums.length-1; // 2, 1
+        while(mid <= high){
+            if(nums[mid] == 2){
+                Solution.swap(nums, mid, high);
+               // mid++;
+                high--;
+            } else if(nums[mid] == 0){
+                Solution.swap(nums, low, mid);
+                low++;
+                mid++;
+            }else{
+                mid++;
+            }
         }
     }
 }
