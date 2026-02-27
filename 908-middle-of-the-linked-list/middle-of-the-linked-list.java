@@ -12,12 +12,15 @@ class Solution {
     public ListNode middleNode(ListNode head) {
         ListNode middle = head;
         int i = 1;
-        while(head != null){
-             if(i % 2 == 0){
-                middle = middle.next;
-            }
-            head = head.next;
-            i++;
+        while(head != null && head.next != null){
+            //  if(i % 2 == 0){
+            //     middle = middle.next;
+            // }
+            // head = head.next;
+            // i++;
+            head = head.next.next;
+            middle = middle.next;
+
         }
         return middle;
         
