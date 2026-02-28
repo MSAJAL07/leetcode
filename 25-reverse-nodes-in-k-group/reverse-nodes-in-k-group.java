@@ -1,48 +1,50 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
 class Solution {
-
-    private ListNode reverse(ListNode start, ListNode end) {
-        ListNode prev = end;
+    private ListNode reverse(ListNode start, ListNode end){
+        ListNode next = end;
         ListNode curr = start;
-
-        while (curr != end) {
-            ListNode next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
+        while(curr != end){
+            ListNode tmp = curr.next;
+            curr.next = next;
+            next = curr;
+            curr = tmp;
         }
+        return next;
 
-        return prev; // new head of this reversed block
     }
-
     public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null || k == 1) return head;
+        if(head == null || k == 1) return head;
 
-        ListNode dummy = new ListNode(0);
-        dummy.next = head;
+        ListNode dummyNode = new ListNode(0);
+        dummyNode.next = head;
 
-        ListNode groupPrev = dummy;
+        ListNode pre = dummyNode;
+        while(true){
 
-        while (true) {
-
-            // find kth node
-            ListNode kth = groupPrev;
-            for (int i = 0; i < k && kth != null; i++) {
+            ListNode kth = pre;
+            for(int i = 0; i<k && kth != null ; ++i){
                 kth = kth.next;
             }
+            if(kth == null) break;
 
-            if (kth == null) break;
+            ListNode start = pre.next;
+            ListNode next = kth.next;
 
-            ListNode groupNext = kth.next;
-            ListNode groupStart = groupPrev.next;
+            ListNode newHead = reverse(start, next);
 
-            // reverse this group
-            ListNode newHead = reverse(groupStart, groupNext);
-
-            // reconnect
-            groupPrev.next = newHead;
-            groupPrev = groupStart;
+            pre.next = newHead;
+            pre = start;  // start is now swith it new item just befor the new reverse
         }
-
-        return dummy.next;
+        return dummyNode.next;
+        
     }
 }
