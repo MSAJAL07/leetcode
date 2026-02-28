@@ -24,24 +24,30 @@ class Solution {
     //     return node;
     // }
     public Node copyRandomList(Node head) {
-        HashMap<Node, Node> mp = new HashMap<>();
+        if(head == null) return null;
         Node curr = head;
-        while(curr != null){
-            mp.put(curr, new Node(curr.val));
-            curr= curr.next;
+        while (curr != null){
+            Node copy = new Node(curr.val);
+            copy.next = curr.next;
+            curr.next = copy;
+            curr = copy.next;
         }
-
         curr = head;
-        Node dummyNode = new Node(0);
-        Node newCurr = dummyNode;
-        while(curr != null){
-            newCurr.next = mp.get(curr);
-            newCurr = newCurr.next;
-            newCurr.next = mp.get(curr.next);
-            newCurr.random = mp.getOrDefault(curr.random, null);
+        while (curr != null){
+            if(curr.random != null)
+                curr.next.random = curr.random.next;
+            curr = curr.next.next;
+        }
+        curr = head;
+        Node newHead = head.next;
+        Node newCurr = newHead;
+        while (curr != null){
+            Node copy = curr.next;
+            curr.next = copy.next;
+            if(copy.next != null)
+                copy.next = copy.next.next;
             curr = curr.next;
         }
-       return dummyNode.next;
-        
+        return newHead;
     }
 }
