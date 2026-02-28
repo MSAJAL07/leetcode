@@ -14,27 +14,34 @@ class Node {
 */
 
 class Solution {
-    private Node createList(Node head, HashMap<Node, Node> mp){
-        if(head == null) return null;
-        Node next = createList(head.next, mp);
-        Node node = new Node(head.val);
-        node.next = next;
-        node.random = head.random; // need to repace with new val after new list is created.
-        mp.put(head, node);
-        return node;
-    }
+    // private Node createList(Node head, HashMap<Node, Node> mp){
+    //     if(head == null) return null;
+    //     Node next = createList(head.next, mp);
+    //     Node node = new Node(head.val);
+    //     node.next = next;
+    //     node.random = head.random; // need to repace with new val after new list is created.
+    //     mp.put(head, node);
+    //     return node;
+    // }
     public Node copyRandomList(Node head) {
         HashMap<Node, Node> mp = new HashMap<>();
-        Node newHead = createList(head, mp);
-
-        Node curr = newHead;
+        Node curr = head;
         while(curr != null){
-            if(curr.random != null){
-                curr.random = mp.get(curr.random); // repaced new randome vlaue with old ones
-            }
+            mp.put(curr, new Node(curr.val));
+            curr= curr.next;
+        }
+
+        curr = head;
+        Node dummyNode = new Node(0);
+        Node newCurr = dummyNode;
+        while(curr != null){
+            newCurr.next = mp.get(curr);
+            newCurr = newCurr.next;
+            newCurr.next = mp.get(curr.next);
+            newCurr.random = mp.getOrDefault(curr.random, null);
             curr = curr.next;
         }
-       return newHead;
+       return dummyNode.next;
         
     }
 }
