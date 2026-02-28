@@ -3,22 +3,28 @@ class Solution {
         int sum = 0;
         int maxLeft = 0;
         int maxRight = 0;
-        for(int i = 0; i < height.length; ++i){
-            if(height[i] >= maxLeft){
-                maxLeft = height[i];
-                continue;
-            }else{
-                maxRight = 0;
-                for(int j=i+1; j< height.length; ++j){
-                    maxRight = Math.max( maxRight, height[j]);
+        int left = 0;
+        int right = height.length -1;
+        while(left < right){
+            if(height[left] <= height[right]){
+                if(height[left] >= maxLeft){
+                    maxLeft = height[left];
+                  
+                }else{
+                    sum = sum + maxLeft - height[left];
                 }
-                if(maxRight <= height[i] ) continue;
+                left ++;
+                
+            }else{
+                if(height[right] >= maxRight){
+                    maxRight = height[right];
+                  
+                }else{
+                    sum = sum + maxRight - height[right];
+                }
+                right --;
             }
-            int tmp =  Math.min(maxLeft , maxRight) - height[i];
-            sum = sum + tmp;
-           
         }
-
 
         return sum;
         
