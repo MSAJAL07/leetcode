@@ -31,6 +31,7 @@ class Solution {
         while(true){
 
             ListNode kth = pre;
+            // get the kth node
             for(int i = 0; i<k && kth != null ; ++i){
                 kth = kth.next;
             }
