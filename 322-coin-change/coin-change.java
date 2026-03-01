@@ -1,22 +1,13 @@
 class Solution {
-    private int getFewestCoins(int[] coins, int target, int i, int[][] dp){
-        if(target == 0) return 0;
-        if (target < 0 || i == coins.length) return -1;
-
-        if(dp[target][i] != -2) return dp[target][i];
-
-        int select = getFewestCoins(coins, target - coins[i], i, dp);
-        if(select != -1) select += 1;
-        int noSelect =  getFewestCoins(coins, target, i+1, dp);
-        if(select == -1) dp[target][i] = noSelect;
-        else if(noSelect == -1) dp[target][i] = select;
-        else dp[target][i] = Math.min(select, noSelect);
-        return dp[target][i];
-    }
     public int coinChange(int[] coins, int amount) {
-        int[][] dp = new int[amount+1][coins.length+1];
-        for (int[] row : dp)
-            Arrays.fill(row, -2);
-        return getFewestCoins(coins, amount, 0, dp);
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int coin : coins) {
+            for (int i = coin; i <= amount; i++) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
     }
 }
