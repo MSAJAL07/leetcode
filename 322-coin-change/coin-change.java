@@ -3,7 +3,7 @@ class Solution {
         if(target == 0) return 0;
         if (target < 0 || i == coins.length) return -1;
 
-        if(dp[target][i] != 0) return dp[target][i];
+        if(dp[target][i] != -2) return dp[target][i];
 
         int select = getFewestCoins(coins, target - coins[i], i, dp);
         if(select != -1) select += 1;
@@ -15,6 +15,8 @@ class Solution {
     }
     public int coinChange(int[] coins, int amount) {
         int[][] dp = new int[amount+1][coins.length+1];
+        for (int[] row : dp)
+            Arrays.fill(row, -2);
         return getFewestCoins(coins, amount, 0, dp);
     }
 }
